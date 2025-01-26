@@ -20,30 +20,37 @@ def main():
         cursor = conn.cursor()
         
         # Запрос всех записей из таблицы links
-        query = "SELECT id, product_id, distributor_id, shop_id, url FROM links"
+        query = "SELECT id, product_id, distributor_id, url FROM links"
         cursor.execute(query)
         print("Выполнен запрос к таблице links")  # Дополнительная точка логирования
         
         for row in cursor.fetchall():
-            id, product_id, distributor_id, shop_id, url = row
+            id, product_id, distributor_id, url = row
             print(f"Обрабатываю URL: {url}")  # Дополнительная точка логирования
             
-            # Вызов функции для обработки каждого URL
-            price = get_price(url)
 
-            if price: 
-                # SQL запрос для добавления записи в таблицу prices
-                insert_query = "INSERT INTO prices (product_id,price,shop_id) VALUES (%s, %s, %s)"
-                values = (product_id, price, shop_id)
-                
-                try:
-                    cursor.execute(insert_query, values)
-                    conn.commit()
-                    print("Цена успешно добавлена в базу данных")  # Дополнительная точка логирования
-                except Exception as e:
-                    print("Ошибка при добавлении цены:", e)
-                    conn.rollback()
-                    print(traceback.format_exc())  # Полная трассировка стека
+            query = "SELECT shop_id FROM shops where distributor_id=1"
+            cursor.execute(query)
+            print("Выполнен запрос к таблице shops")
+
+            # Вызов функции для обработки каждого URL
+            
+            
+            for row1 in cursor.fetchall():
+                price = get_price(url+str(row1[0]))
+                if price: 
+                    # SQL запрос для добавления записи в таблицу prices
+                    insert_query = "INSERT INTO prices (product_id,price,shop_id) VALUES (%s, %s, %s)"
+                    values = (product_id, price, row1[0])
+                    
+                    try:
+                        cursor.execute(insert_query, values)
+                        conn.commit()
+                        print("Цена успешно добавлена в базу данных")  # Дополнительная точка логирования
+                    except Exception as e:
+                        print("Ошибка при добавлении цены:", e)
+                        conn.rollback()
+                        print(traceback.format_exc())  # Полная трассировка стека
     
     except Exception as e:
         print("Ошибка при работе с MySQL:", e)
