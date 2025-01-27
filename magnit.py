@@ -77,7 +77,7 @@ def get_price(url):
     options.add_argument('--disable-dev-shm-usage')  # Отключение использования dev/shm для увеличения производительности
 
     # Указываем путь до исполняемого файла chromium
-    #driver = webdriver.Chrome(options=options, executable_path='/opt/chromium/chrome')
+    driver = webdriver.Chrome(options=options)
 
     try:
         # Открываем URL
