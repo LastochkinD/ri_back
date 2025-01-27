@@ -70,14 +70,13 @@ def main():
             print("Соединение с MySQL закрыто")
 
 def get_price(url):
-    # Настройки для драйвера Chromium
-    options = Options()
-    options.headless = True  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-    options.add_argument('--no-sandbox')  # Отключаем песочницу для повышения безопасности
-    options.add_argument('--disable-dev-shm-usage')  # Отключение использования dev/shm для увеличения производительности
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--headless')  # Этот параметр отключает графический интерфейс браузера
 
-    # Указываем путь до исполняемого файла chromium
-    driver = webdriver.Chrome(options=options)
+    # Создание экземпляра драйвера Chrome
+    driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # Открываем URL
