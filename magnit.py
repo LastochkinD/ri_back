@@ -1,12 +1,12 @@
-import traceback
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+import traceback
 import mysql.connector
-import os
-import tempfile
-import shutil
+
+
 
 def main():
     try:
@@ -70,13 +70,14 @@ def main():
             print("Соединение с MySQL закрыто")
 
 def get_price(url):
-    # Настройки для драйвера Chrome
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-    options.add_argument("--disable-extensions");
-    options.add_argument("--disable-gpu");
+    # Настройки для драйвера Chromium
+    options = Options()
+    options.headless = True  # Запускаем браузер в фоновом режиме (без графического интерфейса)
+    options.add_argument('--no-sandbox')  # Отключаем песочницу для повышения безопасности
+    options.add_argument('--disable-dev-shm-usage')  # Отключение использования dev/shm для увеличения производительности
 
-    driver = webdriver.Chrome(options=options)
+    # Указываем путь до исполняемого файла chromium
+    driver = webdriver.Chrome(options=options, executable_path='/opt/chromium/chrome')
 
     try:
         # Открываем URL
