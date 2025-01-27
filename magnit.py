@@ -73,8 +73,8 @@ def get_price(url):
     # Настройки для драйвера Chrome
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-    options.AddArguments("--disable-extensions");
-    options.AddArguments("--disable-gpu");
+    options.add_argument("--disable-extensions");
+    options.add_argument("--disable-gpu");
 
     driver = webdriver.Chrome(options=options)
 
