@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import mysql.connector
+import os
+import tempfile
 
 def main():
     try:
@@ -70,6 +72,14 @@ def get_price(url):
     # Настройки для драйвера Chrome
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')  # Запускаем браузер в фоновом режиме (без графического интерфейса)
+
+    # Создаём временную директорию для пользовательских данных
+    user_data_dir = os.path.join(tempfile.gettempdir(), 'chrome_user_data_' + str(os.getpid()))
+    os.makedirs(user_data_dir, exist_ok=True)
+    
+    # Добавляем аргумент '--user-data-dir' в опции Chrome
+    options.add_argument(f'--user-data-dir={user_data_dir}')
+
     driver = webdriver.Chrome(options=options)
 
     try:
