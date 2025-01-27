@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import mysql.connector
 import os
 import tempfile
+import shutil
 
 def main():
     try:
@@ -74,8 +75,7 @@ def get_price(url):
     options.add_argument('--headless')  # Запускаем браузер в фоновом режиме (без графического интерфейса)
 
     # Создаём временную директорию для пользовательских данных
-    user_data_dir = os.path.join(tempfile.gettempdir(), 'chrome_user_data_' + str(os.getpid()))
-    os.makedirs(user_data_dir, exist_ok=True)
+    user_data_dir = tempfile.mkdtemp()
     
     # Добавляем аргумент '--user-data-dir' в опции Chrome
     options.add_argument(f'--user-data-dir={user_data_dir}')
@@ -105,6 +105,8 @@ def get_price(url):
     finally:
         # Закрываем браузер
         driver.quit()
+        # Удаляем временную директорию
+        shutil.rmtree(user_data_dir)
 
 if __name__ == "__main__":
     main()
