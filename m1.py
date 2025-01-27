@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import traceback
 
 
@@ -18,12 +20,10 @@ def main():
 def get_price(url):
     # Настройки для драйвера Chromium
     options = Options()
-    options.headless = True  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-    options.add_argument('--no-sandbox')  # Отключаем песочницу для повышения безопасности
-    options.add_argument('--disable-dev-shm-usage')  # Отключение использования dev/shm для увеличения производительности
-
-    # Указываем путь до исполняемого файла chromium
-    driver = webdriver.Chrome(options=options, executable_path="/path/to/chromedriver")  # Укажите здесь путь к вашему chromedriver
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
     try:
         # Открываем URL
