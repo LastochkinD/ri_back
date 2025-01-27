@@ -77,6 +77,8 @@ def get_price(url):
     # Создаём временную директорию для пользовательских данных
     user_data_dir = tempfile.mkdtemp()
     
+    os.chmod(user_data_dir, 0o700)
+    
     # Добавляем аргумент '--user-data-dir' в опции Chrome
     options.add_argument(f'--user-data-dir={user_data_dir}')
 
