@@ -73,14 +73,8 @@ def get_price(url):
     # Настройки для драйвера Chrome
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-
-    # Создаём временную директорию для пользовательских данных
-    user_data_dir = tempfile.mkdtemp()
-    
-    os.chmod(user_data_dir, 0o700)
-    
-    # Добавляем аргумент '--user-data-dir' в опции Chrome
-    options.add_argument(f'--user-data-dir={user_data_dir}')
+    options.AddArguments("--disable-extensions");
+    options.AddArguments("--disable-gpu");
 
     driver = webdriver.Chrome(options=options)
 
@@ -107,8 +101,6 @@ def get_price(url):
     finally:
         # Закрываем браузер
         driver.quit()
-        # Удаляем временную директорию
-        shutil.rmtree(user_data_dir)
 
 if __name__ == "__main__":
     main()
