@@ -73,7 +73,7 @@ def get_price(url):
     # Настройки для драйвера Chromium
     options = Options()
     options.headless = True  # Запускаем браузер в фоновом режиме (без графического интерфейса)
-    options.add_argument('--no-sandbox')  # Отключаем песочницу для повышения безопасности
+    #options.add_argument('--no-sandbox')  # Отключаем песочницу для повышения безопасности
     options.add_argument('--disable-dev-shm-usage')  # Отключение использования dev/shm для увеличения производительности
 
     # Указываем путь до исполняемого файла chromium
