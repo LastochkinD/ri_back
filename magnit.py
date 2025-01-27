@@ -37,20 +37,24 @@ def main():
             
             
             for row1 in cursor.fetchall():
-                price = get_price(url+str(row1[0]))
-                if price: 
-                    # SQL запрос для добавления записи в таблицу prices
-                    insert_query = "INSERT INTO prices (product_id,price,shop_id) VALUES (%s, %s, %s)"
-                    values = (product_id, price, row1[0])
-                    
-                    try:
-                        cursor.execute(insert_query, values)
-                        conn.commit()
-                        print("Цена успешно добавлена в базу данных")  # Дополнительная точка логирования
-                    except Exception as e:
-                        print("Ошибка при добавлении цены:", e)
-                        conn.rollback()
-                        print(traceback.format_exc())  # Полная трассировка стека
+                try:
+                    price = get_price(url+str(row1[0]))
+                    if price: 
+                        # SQL запрос для добавления записи в таблицу prices
+                        insert_query = "INSERT INTO prices (product_id,price,shop_id) VALUES (%s, %s, %s)"
+                        values = (product_id, price, row1[0])
+                        
+                        try:
+                            cursor.execute(insert_query, values)
+                            conn.commit()
+                            print("Цена успешно добавлена в базу данных")  # Дополнительная точка логирования
+                        except Exception as e:
+                            print("Ошибка при добавлении цены:", e)
+                            conn.rollback()
+                            print(traceback.format_exc())  # Полная трассировка стека
+                except Exception as e:
+                    print("Ошибка при получении цены", e)
+                    print(traceback.format_exc())  # Полная трассировка стека
     
     except Exception as e:
         print("Ошибка при работе с MySQL:", e)
@@ -74,11 +78,11 @@ def get_price(url):
         print(f"URL открыт: {url}")  # Дополнительная точка логирования
 
         # Ожидаем загрузки элементов на странице
-        wait = WebDriverWait(driver, 3)
+        wait = WebDriverWait(driver, 5)
+        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "unit-footer-section-contacts")))
         
-        # Извлекаем элемент с ценой по атрибуту itemprop="price"
-        price_element = wait.until(EC.presence_of_element_located((By.XPATH, '//meta[@itemprop="price"]')))
-
+        # Получаем элемент по XPath
+        price_element = driver.find_element(By.XPATH, '//meta[@itemprop="price"]')
         # Получаем значение атрибута content
         raw_price = price_element.get_attribute('content')
 
