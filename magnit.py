@@ -118,7 +118,7 @@ def get_price(url):
         # Возвращаем найденную цену
         return raw_price
     except Exception as e:
-        print(f"Произошла ошибка при поиске цены на странице: {e}")
+        print(f"Произошла ошибка при поиске цены на странице:")
         return None
     finally:
         # Закрываем браузер
