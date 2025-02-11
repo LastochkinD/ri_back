@@ -36,8 +36,7 @@ def main():
             cursor.execute(query)
             print("Выполнен запрос к таблице shops")
 
-            # Вызов функции для обработки каждого URL
-            
+            # Вызов функции для обработки каждого URL            
             
             for row1 in cursor.fetchall():
                 try:
@@ -54,14 +53,11 @@ def main():
                         except Exception as e:
                             print("Ошибка при добавлении цены:", e)
                             conn.rollback()
-                            print(traceback.format_exc())  # Полная трассировка стека
                 except Exception as e:
                     print("Ошибка при получении цены", e)
-                    print(traceback.format_exc())  # Полная трассировка стека
     
     except Exception as e:
         print("Ошибка при работе с MySQL:", e)
-        print(traceback.format_exc())  # Полная трассировка стека
     
     finally:
         if conn.is_connected():
@@ -73,6 +69,7 @@ def get_price(url):
     chrome_options = Options()
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--headless')  # Этот параметр отключает графический интерфейс браузера
 
     # Создание экземпляра драйвера Chrome
@@ -81,8 +78,6 @@ def get_price(url):
     try:
         # Открываем URL
         driver.get(url)
-        print(f"URL открыт: {url}")  # Дополнительная точка логирования
-
         # Ожидаем загрузки элементов на странице
         wait = WebDriverWait(driver, 5)
         element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "unit-footer-section-contacts")))
@@ -96,7 +91,6 @@ def get_price(url):
         return raw_price
     except Exception as e:
         print(f"Произошла ошибка: {e}")
-        print(traceback.format_exc())  # Полная трассировка стека
         return None
     finally:
         # Закрываем браузер
