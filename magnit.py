@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException,TimeoutException
 import mysql.connector
 import os
 
@@ -88,8 +89,14 @@ def get_price(url):
 
         # Возвращаем найденную цену
         return raw_price
+    except TimeoutException:
+        print("Элемент не найден в течение отведенного времени.")
+        return None
+    except NoSuchElementException:
+        print("Элемент с ценой не найден на странице.")
+        return None
     except Exception as e:
-        print(f"Произошла ошибка при поиске цены на странице:")
+        print(f"Произошла другая ошибка при поиске цены на странице: {e}")
         return None
     finally:
         # Закрываем браузер
