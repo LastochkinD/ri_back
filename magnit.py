@@ -69,36 +69,7 @@ def get_price(url):
     os.system("pkill -f chrome")
 
     chrome_options = Options()
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--headless')  # Отключаем графический интерфейс
-
-    # Оптимизация для Ubuntu Server
-    chrome_options.add_argument('--remote-debugging-port=9222')  # Отладка
-    chrome_options.add_argument('--disable-software-rasterizer')  # Отключаем софтверный рендеринг
-    chrome_options.add_argument('--disable-extensions')  # Отключаем расширения
-    chrome_options.add_argument('--disable-background-networking')  # Отключаем фоновые сетевые запросы
-    chrome_options.add_argument('--disable-background-timer-throttling')  # Отключаем фоновые таймеры
-    chrome_options.add_argument('--disable-backgrounding-occluded-windows')  # Оптимизация для фоновых окон
-    chrome_options.add_argument('--disable-breakpad')  # Отключаем crash-репорты
-    chrome_options.add_argument('--disable-component-update')  # Отключаем обновления компонентов
-    chrome_options.add_argument('--disable-default-apps')  # Отключаем стандартные приложения
-    chrome_options.add_argument('--disable-domain-reliability')  # Отключаем сбор данных о доменах
-    chrome_options.add_argument('--disable-features=AudioServiceOutOfProcess')  # Отключаем ненужные фичи
-    chrome_options.add_argument('--disable-hang-monitor')  # Отключаем мониторинг зависаний
-    chrome_options.add_argument('--disable-ipc-flooding-protection')  # Отключаем защиту от IPC-флуда
-    chrome_options.add_argument('--disable-popup-blocking')  # Отключаем блокировку popup
-    chrome_options.add_argument('--disable-prompt-on-repost')  # Отключаем запросы при повторной отправке форм
-    chrome_options.add_argument('--disable-renderer-backgrounding')  # Отключаем фоновый рендеринг
-    chrome_options.add_argument('--disable-sync')  # Отключаем синхронизацию
-    chrome_options.add_argument('--force-color-profile=srgb')  # Используем стандартный цветовой профиль
-    chrome_options.add_argument('--metrics-recording-only')  # Отключаем сбор метрик
-    chrome_options.add_argument('--no-first-run')  # Пропускаем первый запуск
-    chrome_options.add_argument('--safebrowsing-disable-auto-update')  # Отключаем обновления Safe Browsing
-    chrome_options.add_argument('--enable-automation')  # Включаем режим автоматизации
-    chrome_options.add_argument('--password-store=basic')  # Упрощаем хранение паролей
-    chrome_options.add_argument('--use-mock-keychain')  # Используем mock keychain
 
     # Создание экземпляра драйвера Chrome
     driver = webdriver.Chrome(options=chrome_options)
