@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 
 # Настраиваем headless режим
 chrome_options = Options()
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 
 # Инициализируем веб-драйвер
 driver = webdriver.Chrome(options=chrome_options)
