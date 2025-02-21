@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import mysql.connector
-import os
 
 def main():
     try:
@@ -65,12 +64,9 @@ def main():
             print("Соединение с MySQL закрыто")
 
 def get_price(url):
-    # Завершаем все запущенные процессы Chrome и ChromeDriver на Linux
-    os.system("pkill -f chromedriver")
-    os.system("pkill -f chrome")
-
     chrome_options = Options()
     chrome_options.add_argument('--headless')  # Отключаем графический интерфейс
+    chrome_options.add_argument("--disable-features=DBus")
 
     # Создание экземпляра драйвера Chrome
     driver = webdriver.Chrome(options=chrome_options)
