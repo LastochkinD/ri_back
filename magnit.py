@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import mysql.connector
+import tempfile
 
 def main():
     try:
@@ -64,10 +65,13 @@ def main():
             print("Соединение с MySQL закрыто")
 
 def get_price(url):
+    chrome_data_dir = tempfile.mkdtemp()
     chrome_options = Options()
     chrome_options.add_argument('--headless')  # Отключаем графический интерфейс
     chrome_options.add_argument("--disable-features=DBus")
-
+    chrome_options.add_argument('--no-sandbox')  # Отключаем sandbox для работы без прав root
+    chrome_options.add_argument('--disable-dev-shm-usage')  # Решает проблемы с памятью
+    chrome_options.add_argument(f'--user-data-dir={chrome_data_dir}')  # Указываем уникальную ди
     # Создание экземпляра драйвера Chrome
     driver = webdriver.Chrome(options=chrome_options)
 
